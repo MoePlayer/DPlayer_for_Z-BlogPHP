@@ -24,7 +24,7 @@ class dplayer_class
                 'autoplay' => false,
                 'theme' => $theme);
             $data['autoplay'] = ($atts['autoplay'] == 'true') ? true : false;
-            $data['theme'] = $atts['theme'] ? $atts['autoplay'] : $theme;
+            $data['theme'] = $atts['theme'] ? $atts['theme'] : $theme;
             $data['video'] = $result;
             $danmaku = array(
                 'id' => md5($id),
