@@ -2,27 +2,27 @@
 <plugin version="php">
 <id>DPlayer</id>
 <name>DPlayer for Z-BlogPHP</name>
-<url>https://github.com/fghrsh/DPlayer_for_Z-BlogPHP</url>
+<url>https://www.fghrsh.net/</url>
 <note>DPlayer - 炒鸡好看的HTML5弹幕视频播放器</note>
-<description>https://www.fghrsh.net/post/57.html</description>
+<description></description>
 <path>main.php</path>
 <include>include.php</include>
 <level>1</level>
 <author>
-  <name>fghrsh</name>
+  <name>FGHRSH</name>
   <email>i@fghrsh.net</email>
-  <url>https://www.fghrsh.net</url>
+  <url>https://www.fghrsh.net/</url>
 </author>
 <source>
   <name></name>
   <email></email>
   <url></url>
 </source>
-<adapted>140614</adapted>
+<adapted>131221</adapted>
 <version>1.1</version>
 <pubdate>2016-05-30</pubdate>
-<modified>2016-06-01</modified>
-<price>0</price>
+<modified>2016-05-30</modified>
+<price>200</price>
 <advanced>
   <dependency></dependency>
   <rewritefunctions></rewritefunctions>
