@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin version="php">
+<id>DPlayer</id>
+<name>DPlayer for Z-BlogPHP</name>
+<url>https://www.fghrsh.net/</url>
+<note>DPlayer - 炒鸡好看的HTML5弹幕视频播放器</note>
+<description></description>
+<path>main.php</path>
+<include>include.php</include>
+<level>1</level>
+<author>
+  <name>FGHRSH</name>
+  <email>i@fghrsh.net</email>
+  <url>https://www.fghrsh.net/</url>
+</author>
+<source>
+  <name></name>
+  <email></email>
+  <url></url>
+</source>
+<adapted>131221</adapted>
+<version>1.0</version>
+<pubdate>2016-05-30</pubdate>
+<modified>2016-05-30</modified>
+<price>200</price>
+<advanced>
+  <dependency></dependency>
+  <rewritefunctions></rewritefunctions>
+  <conflict></conflict>
+</advanced>
+<sidebars>
+  <sidebar1></sidebar1>
+  <sidebar2></sidebar2>
+  <sidebar3></sidebar3>
+  <sidebar4></sidebar4>
+  <sidebar5></sidebar5>
+</sidebars>
+</plugin>
