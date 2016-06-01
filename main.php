@@ -43,8 +43,8 @@ p{line-height:1.5em;padding:0.5em 0;}
 .tc{border: solid 2px #E1E1E1;width: 50px;height: 23px;float: left;margin: 0.25em;cursor: pointer}
 .tc:hover,.active{border: 2px solid #2694E8;}
 </style>
-<script type="text/javascript" src="farbtastic.js"></script>
-<link rel="stylesheet" href="farbtastic.css" type="text/css" />
+<script type="text/javascript" src="farbtastic/farbtastic.js"></script>
+<link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {$('#picker').farbtastic('#color');});
 </script>
