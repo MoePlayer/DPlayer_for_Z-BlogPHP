@@ -33,13 +33,16 @@ class dplayer_class
             $data['danmaku'] = ($atts['danmu'] != 'false') ? $danmaku : null;
             if (empty($dmserver)) $data['danmaku'] = null;
             $js = json_encode($data);
-            $src = "<div id=\"player".$id."\" class=\"dplayer\">如无显示请刷新本页，播放器暂不支持Pjax无刷新加载</div><script>dPlayerOptions.push(".$js.");</script>";
+            $src = "<div id=\"player".$id."\" class=\"dplayer\"></div>";
             if (empty($out)) {
                 $out = str_replace($matches[0][$i], $src, $post);
+                $jssrc = "dPlayerOptions.push(".$js.");";
             } else {
                 $out = str_replace($matches[0][$i], $src, $out);
+                $jssrc .= "dPlayerOptions.push(".$js.");";
             }
         }
+        $out .= "<i id=\"dpajax\" hidden=\"hidden\">".$jssrc."</i>";
         return $out;
     }
 

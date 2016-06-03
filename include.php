@@ -27,8 +27,8 @@ function DPlayer_Filter_Plugin_ViewList_Template(&$template) {
 
 function DPlayer_Filter_Plugin_Zbp_MakeTemplatetags() {
     global $zbp;
-    $zbp->header .= '<link rel="stylesheet" href="'.$zbp->host.'zb_users/plugin/DPlayer/dplayer/DPlayer.min.css">'."\r\n".'<script>var dPlayers = [];var dPlayerOptions = [];</script>'."\r\n";
-    $zbp->footer .= '<script type="text/javascript" src="'.$zbp->host.'zb_users/plugin/DPlayer/dplayer/DPlayer.min.js"></script>'."\r\n"."<script>var len = dPlayerOptions.length;for(var i=0;i<len;i++){dPlayers[i] = new DPlayer({element: document.getElementById('player' + dPlayerOptions[i]['id']),autoplay: dPlayerOptions[i]['autoplay'],video: dPlayerOptions[i]['video'],theme: dPlayerOptions[i]['theme'],danmaku: dPlayerOptions[i]['danmaku'],});dPlayers[i].init();}</script>";
+    $zbp->header .= '<link rel="stylesheet" href="'.$zbp->host.'zb_users/plugin/DPlayer/dplayer/DPlayer.min.css">'."\r\n";
+    $zbp->footer .= '<script type="text/javascript" src="'.$zbp->host.'zb_users/plugin/DPlayer/dplayer/DPlayer.min.js"></script>'."\r\n"."<script>function dpajaxload(){var dPlayers=[],dPlayerOptions=[];eval(document.getElementById(\"dpajax\").innerHTML);var len=dPlayerOptions.length;for(var i=0;i<len;i++){dPlayers[i]=new DPlayer({element:document.getElementById('player'+dPlayerOptions[i]['id']),autoplay:dPlayerOptions[i]['autoplay'],video:dPlayerOptions[i]['video'],theme:dPlayerOptions[i]['theme'],danmaku:dPlayerOptions[i]['danmaku'],});dPlayers[i].init()}}dpajaxload();</script>";
 }
 
 function InstallPlugin_DPlayer() {

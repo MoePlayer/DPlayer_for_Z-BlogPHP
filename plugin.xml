@@ -3,7 +3,7 @@
 <id>DPlayer</id>
 <name>DPlayer for Z-BlogPHP</name>
 <url>https://github.com/fghrsh/DPlayer_for_Z-BlogPHP</url>
-<note>DPlayer - 炒鸡好看的HTML5弹幕视频播放器</note>
+<note>DPlayer - 超级好看的HTML5弹幕视频播放器</note>
 <description>https://www.fghrsh.net/post/57.html</description>
 <path>main.php</path>
 <include>include.php</include>
@@ -19,9 +19,9 @@
   <url></url>
 </source>
 <adapted>140614</adapted>
-<version>1.1</version>
+<version>1.2</version>
 <pubdate>2016-05-30</pubdate>
-<modified>2016-06-01</modified>
+<modified>2016-06-03</modified>
 <price>0</price>
 <advanced>
   <dependency></dependency>
