@@ -5,41 +5,46 @@ class dplayer_class
         $pattern = self::get_shortcode_regex(array('dplayer'));
         preg_match_all("/$pattern/",$post,$matches);
         if (empty($matches[0])) {
-            return $post;
-        }
-        if ($matches[1] == '[' && $matches[6] == ']') {
-            return substr($matches[0], 1, -1);
+            return $post."<i id=\"dpajax\" hidden=\"hidden\"></i>";
         }
         for ($i=0;$i<count($matches[3]);$i++) {
-            $attr = htmlspecialchars_decode($matches[3][$i]);
-            $atts = self::shortcode_parse_atts($attr);
-            $id = md5($siteurl.$atts['url']);
-            $result = array(
-                'url' => $atts['url'] ? $atts['url'] : '',
-                'pic' => $atts['pic'] ? $atts['pic'] : '');
-            if (empty($result)) return '';
-            if (empty($theme)) $theme = '#FADFA3';
-            $data = array(
-                'id' => $id,
-                'autoplay' => false,
-                'theme' => $theme);
-            $data['autoplay'] = ($atts['autoplay'] == 'true') ? true : false;
-            $data['theme'] = $atts['theme'] ? $atts['theme'] : $theme;
-            $data['video'] = $result;
-            $danmaku = array(
-                'id' => md5($id),
-                'token' => md5(md5($id) . date('YmdH', time())),
-                'api' => $dmserver,);
-            $data['danmaku'] = ($atts['danmu'] != 'false') ? $danmaku : null;
-            if (empty($dmserver)) $data['danmaku'] = null;
-            $js = json_encode($data);
-            $src = "<div id=\"player".$id."\" class=\"dplayer\"></div>";
-            if (empty($out)) {
-                $out = str_replace($matches[0][$i], $src, $post);
-                $jssrc = "dPlayerOptions.push(".$js.");";
+            if ($matches[1][$i] == '[' && $matches[6][$i] == ']') {
+                if (empty($out)) {
+                    $out = str_replace($matches[0][$i], substr($matches[0][$i], 1, -1), $post);
+                } else {
+                    $out = str_replace($matches[0][$i], substr($matches[0][$i], 1, -1), $out);
+                }
             } else {
-                $out = str_replace($matches[0][$i], $src, $out);
-                $jssrc .= "dPlayerOptions.push(".$js.");";
+                $attr = htmlspecialchars_decode($matches[3][$i]);
+                $atts = self::shortcode_parse_atts($attr);
+                $id = md5($siteurl.$atts['url']);
+                $result = array(
+                    'url' => $atts['url'] ? $atts['url'] : '',
+                    'pic' => $atts['pic'] ? $atts['pic'] : '');
+                if (empty($result)) return '';
+                if (empty($theme)) $theme = '#FADFA3';
+                $data = array(
+                    'id' => $id,
+                    'autoplay' => false,
+                    'theme' => $theme);
+                $data['autoplay'] = ($atts['autoplay'] == 'true') ? true : false;
+                $data['theme'] = $atts['theme'] ? $atts['theme'] : $theme;
+                $data['video'] = $result;
+                $danmaku = array(
+                    'id' => md5($id),
+                    'token' => md5(md5($id) . date('YmdH', time())),
+                    'api' => $dmserver,);
+                $data['danmaku'] = ($atts['danmu'] != 'false') ? $danmaku : null;
+                if (empty($dmserver)) $data['danmaku'] = null;
+                $js = json_encode($data);
+                $src = "<div id=\"player".$id."\" class=\"dplayer\"></div>";
+                if (empty($out)) {
+                    $out = str_replace($matches[0][$i], $src, $post);
+                    $jssrc = "dPlayerOptions.push(".$js.");";
+                } else {
+                    $out = str_replace($matches[0][$i], $src, $out);
+                    $jssrc .= "dPlayerOptions.push(".$js.");";
+                }
             }
         }
         $out .= "<i id=\"dpajax\" hidden=\"hidden\">".$jssrc."</i>";
