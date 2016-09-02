@@ -1,45 +1,52 @@
-# [DPlayer_for_Z-BlogPHP](https://www.fghrsh.net/post/57.html)
-[DPlayer](https://github.com/DIYgod/DPlayer) for Z-BlogPHP
+#[DPlayer_for_Z-BlogPHP](https://www.fghrsh.net/post/57.html)
+<p>
+    Demo：
+    <a href="https://www.fghrsh.net/post/57.html" target="_blank">
+        https://www.fghrsh.net/post/57.html
+    </a>
+</p>
+<p>
+    效果截图
+</p>
+<p>
+    <img width="80%" src="https://fp1.fghrsh.net/2016/06/01/5dc96d3a7e157c883ea62e22339cee39.jpg" border="0" vspace="0"/>
+</p>
+<p>
+    <br/>
+</p>
+<p>
+    <a  rel='nofollow' title="DPlayer" style="color: rgb(0, 112, 192); text-decoration: none;" href="https://github.com/DIYgod/DPlayer" target="_blank">
+        <span style="color: #0070C0;">DIYgod开发的超级好看的HTML5弹幕视频播放器，现已移植到了 Z-BlogPHP 233</span>
+    </a>
+</p>
+<p>
+    <br/>
+</p>
 
-## 声明
+
+##声明
 代码和用法参考了 [https://github.com/volio/DPlayer-for-typecho](https://github.com/volio/DPlayer-for-typecho)
 
 ##使用方式
-下载后将文件夹名改为DPlayer上传启用即可
-
-默认不自动播放，弹幕开启
 ```
 [dplayer url="http://xxx.com/xxx.mp4" pic="http://xxx.com/xxx.jpg" autoplay="true" danmu="false"/]
 ```
-
-### V1.4 更新
-更新 DPlayer 至最新版本  
-新增 去除右键菜单  
-新增 去除全局按键检测 设置  
-新版 DPlayer 更新了 [SATA](https://github.com/DIYgod/DPlayer/blob/master/LICENSE "The Star And Thank Author License") 授权协议，用前请先 [+1star](https://github.com/DIYgod/DPlayer "DPlayer") =-= (支持作者)
-
-### V1.2 更新
-已实现Ajax/Pjax模板支持，仅需在 加载完成时执行 里加入
-```
-dpajaxload();
-```
-即可无刷新加载 DPlayer 播放器（效果见我博客，全站pjax）
+直接在文章插入上述标签即可，默认不自动播放，弹幕开启
 
 ###参数说明
-url - 视频地址（必须）  
-pic - 视频封面（可选）  
-danmu - 弹幕（可选，默认开）  
-loop - 循环播放（可选，默认关）  
-autoplay - 自动播放（可选，默认关）  
-theme - 自定义颜色（可选，默认为全局设置）
-
-###后台配置说明
-本站地址 - 用于生成唯一视频ID  
-去除右键菜单 - 隐藏播放器右键菜单  
-弹幕后端服务器 - 用于指定弹幕服务器地址  
-去除全局按键检测 - 解决评论 输入空格 导致 播放器暂停/播放 问题  
-播放器色调 - 指定全局播放器颜色主题（颜色生效在哪？你看看进度条..）  
-Tips：想多个站显示同一弹幕，设置“本站地址”为同一地址即可（视频地址需相同）
+```
+url - 视频地址（必须）　　     // 填url地址
+pic - 视频封面（可选）　　     // 填url地址
+autoplay - 自动播放（可选）　　// true（开启） 或 false（关闭）
+theme - 自定义颜色（可选） 　  // 十六进制 (hex)  例：#FADFA3
+loop - 循环播放（可选）　　    // true（开启） 或 false（关闭）
+lang - 界面语言（可选）　　    // 'zh'（中文） 或 'en'（英文）
+danmu - 弹幕开关（可选）　　   // true（开启） 或 false（关闭）
+id - 指定弹幕ID（可选）　　    // 跳过弹幕ID生成，直接绑定弹幕池ID
+screenshot - 截图功能（可选）　// true  或 false，开启截图功能需源站支持 Cross-Origin
+hotkey - 热键（可选）　　      // true  或 false，空格 播放/暂停，↕调节音量，↔调节进度
+preload - 预加载（可选）　　   //'auto'（自动） 或 'metadata'（开启） 或 'none'（关闭）
+```
 
 ## LICENSE
-MIT © [FGHRSH](https://www.fghrsh.net)
+MIT ©2016 [FGHRSH](https://www.fghrsh.net)
