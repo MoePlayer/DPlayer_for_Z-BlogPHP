@@ -8,7 +8,7 @@ Demo：https://www.fghrsh.net/post/57.html
 </a>
 
 ##声明
-代码和用法参考了 [https://github.com/volio/DPlayer-for-typecho](https://github.com/volio/DPlayer-for-typecho)
+部分代码参考 [https://github.com/volio/DPlayer-for-typecho](https://github.com/volio/DPlayer-for-typecho)
 
 ##使用方式
 ```
@@ -32,4 +32,4 @@ preload - 预加载（可选）　　   //'auto'（自动） 或 'metadata'（�
 ```
 
 ## LICENSE
-MIT &copy;2016 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/57.html" target="_blank" style="color:#333333">DPlayer for Z-BlogPHP V1.6</a> (DPlayer 1.0.8)
+MIT &copy; [FGHRSH](https://www.fghrsh.net)
