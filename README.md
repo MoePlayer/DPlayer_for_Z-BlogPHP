@@ -1,28 +1,11 @@
-#[DPlayer_for_Z-BlogPHP](https://www.fghrsh.net/post/57.html)
-<p>
-    Demo：
-    <a href="https://www.fghrsh.net/post/57.html" target="_blank">
-        https://www.fghrsh.net/post/57.html
-    </a>
-</p>
-<p>
-    效果截图
-</p>
-<p>
-    <img width="80%" src="https://fp1.fghrsh.net/2016/06/01/5dc96d3a7e157c883ea62e22339cee39.jpg" border="0" vspace="0"/>
-</p>
-<p>
-    <br/>
-</p>
-<p>
-    <a  rel='nofollow' title="DPlayer" style="color: rgb(0, 112, 192); text-decoration: none;" href="https://github.com/DIYgod/DPlayer" target="_blank">
-        <span style="color: #0070C0;">DIYgod开发的超级好看的HTML5弹幕视频播放器，现已移植到了 Z-BlogPHP 233</span>
-    </a>
-</p>
-<p>
-    <br/>
-</p>
-
+#[DPlayer_for_Z-BlogPHP](https://app.zblogcn.com/?id=1033)
+Demo：https://www.fghrsh.net/post/57.html  
+效果截图  
+<img width="80%" src="https://fp1.fghrsh.net/2016/06/01/5dc96d3a7e157c883ea62e22339cee39.jpg" border="0" vspace="0"/>  
+<br/>
+<a style="color: rgb(0, 112, 192); text-decoration: none;" href="https://github.com/DIYgod/DPlayer" target="_blank">
+    <span style="color: #0070C0;">DIYgod开发的超级好看的HTML5弹幕视频播放器，现已移植到了 Z-BlogPHP 233</span>  
+</a>
 
 ##声明
 代码和用法参考了 [https://github.com/volio/DPlayer-for-typecho](https://github.com/volio/DPlayer-for-typecho)
@@ -49,4 +32,4 @@ preload - 预加载（可选）　　   //'auto'（自动） 或 'metadata'（�
 ```
 
 ## LICENSE
-MIT ©2016 [FGHRSH](https://www.fghrsh.net)
+MIT &copy;2016 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/57.html" target="_blank" style="color:#333333">DPlayer for Z-BlogPHP V1.6</a> (DPlayer 1.0.8)
