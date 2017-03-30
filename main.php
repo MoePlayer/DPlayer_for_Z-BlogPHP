@@ -20,11 +20,11 @@ if(isset($_POST['seturl'])){
 	}
 	if(empty($dmserver)){
 		$zbp->Config('DPlayer')->dmserver = '';
-		$tips .= '弹幕服务器地址为空，弹幕设置将失效;';
+		$tips .= '弹幕池 地址 为空，弹幕将不显示;';
 	}else{
-	    if (!$dmserver == ($zbp->Config('DPlayer')->dmserver)){
+	    if ($dmserver != ($zbp->Config('DPlayer')->dmserver)){
 			$zbp->Config('DPlayer')->dmserver = $dmserver;
-			$tips .= '弹幕服务器地址设置成功;';
+			$tips .= '弹幕池 地址 设置成功;';
 		}
 	}
 	if (!$hidermmenu == ($zbp->Config('DPlayer')->hidermmenu)){
@@ -40,11 +40,11 @@ if(isset($_POST['seturl'])){
 		$zbp->Config('DPlayer')->hidermmenu = $hidermmenu;
 		$tips .= '附加设置已应用，刷新播放器js缓存后生效;';
 	}
-	if (in_array('hotkey',$options)) $hotkey = 1; else $hotkey = 0;
-	if (in_array('danmaku',$options)) $danmaku = 1; else $danmaku = 0;
-	if (in_array('screenshot',$options)) $screenshot = 1; else $screenshot = 0;
-	if (in_array('loop',$options)) $loop = 1; else $loop = 0;
-	if (in_array('autoplay',$options)) $autoplay = 1; else $autoplay = 0;
+	$hotkey = in_array('hotkey',$options) ? 1 : 0;
+	$danmaku = in_array('danmaku',$options) ? 1 : 0;
+	$screenshot = in_array('screenshot',$options) ? 1 : 0;
+	$loop = in_array('loop',$options) ? 1 : 0;
+	$autoplay = in_array('autoplay',$options) ? 1 : 0;
 	if ($hotkey != $zbp->Config('DPlayer')->hotkey) {
 	    $zbp->Config('DPlayer')->hotkey = $hotkey;
 	    $tips .= '设置已应用;';
@@ -87,6 +87,15 @@ if(isset($_POST['seturl'])){
 	    $tips .= '设置已应用;';
 	}
 	$zbp->SaveConfig('DPlayer');
+	if ($flv != $zbp->Config('DPlayer')->flv) {
+	    $zbp->Config('DPlayer')->flv = $flv;
+	    $tips .= '设置已应用;';
+	}
+	if ($hls != $zbp->Config('DPlayer')->hls) {
+	    $zbp->Config('DPlayer')->hls = $hls;
+	    $tips .= '设置已应用;';
+	}
+	$zbp->SaveConfig('DPlayer');
 	
 	if ( isset($tips) ) {
 	    $tips = explode(";",$tips);
@@ -98,35 +107,33 @@ if(isset($_POST['seturl'])){
 	}
 }
 ?>
-<style>input.text{background:#FFF;border:1px double #aaa;font-size:1em;padding:.25em}p{line-height:1.5em;padding:.5em 0}.tc{border:solid 2px #E1E1E1;width:50px;height:23px;float:left;margin:.25em;cursor:pointer}.active,.tc:hover{border:2px solid #2694E8}</style>
-<script type="text/javascript" src="farbtastic/farbtastic.js"></script>
-<link rel="stylesheet" href="farbtastic/farbtastic.css" type="text/css" />
-<script type="text/javascript" charset="utf-8">
-$(document).ready(function() {$('#picker').farbtastic('#color');});
-</script>
+<link rel="stylesheet" href="jcolor/jcolor.min.css" type="text/css" />
+<script type="text/javascript" src="jcolor/jcolor.min.js"></script>
 <div id="divMain">
     <div class="divHeader"><a href="https://app.zblogcn.com/?id=1033" target="_blank">DPlayer for Z-BlogPHP</a> - 插件配置</div>
 	    <div id="divMain2">
 	        <form id="form1" name="form1" method="post">
-                <table width="60%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
+                <table width="90%" style='padding:0px;margin:0px;' cellspacing='0' cellpadding='0' class="tableBorder">
                     <tr>
                         <th width='20%'><p align="center">设置</p></th>
                         <th width='70%'><p align="center">选项</p></th>
                     </tr>
                     <?php 
                         $config = array(
-		                    "seturl" => $zbp->Config('DPlayer')->seturl,
-		                    "dmserver" => $zbp->Config('DPlayer')->dmserver,
-		                    "useue" => $zbp->Config('DPlayer')->useue,
-		                    "hidermmenu" => $zbp->Config('DPlayer')->hidermmenu,
-		                    "hotkey" => $zbp->Config('DPlayer')->hotkey,
-		                    "danmaku" => $zbp->Config('DPlayer')->danmaku,
-		                    "screenshot" => $zbp->Config('DPlayer')->screenshot,
-		                    "loop" => $zbp->Config('DPlayer')->loop,
-		                    "autoplay" => $zbp->Config('DPlayer')->autoplay,
-		                    "preload" => $zbp->Config('DPlayer')->preload,
-		                    "lang" => $zbp->Config('DPlayer')->lang,
-		                    "maximum" => $zbp->Config('DPlayer')->maximum
+		                    'seturl' => $zbp->Config('DPlayer')->seturl,
+		                    'dmserver' => $zbp->Config('DPlayer')->dmserver,
+		                    'useue' => $zbp->Config('DPlayer')->useue,
+		                    'hidermmenu' => $zbp->Config('DPlayer')->hidermmenu,
+		                    'hotkey' => $zbp->Config('DPlayer')->hotkey,
+		                    'danmaku' => $zbp->Config('DPlayer')->danmaku,
+		                    'screenshot' => $zbp->Config('DPlayer')->screenshot,
+		                    'loop' => $zbp->Config('DPlayer')->loop,
+		                    'autoplay' => $zbp->Config('DPlayer')->autoplay,
+		                    'preload' => $zbp->Config('DPlayer')->preload,
+		                    'lang' => $zbp->Config('DPlayer')->lang,
+		                    'maximum' => $zbp->Config('DPlayer')->maximum,
+		                    'flv' => $zbp->Config('DPlayer')->flv,
+		                    'hls' => $zbp->Config('DPlayer')->hls
 		                );
                     ?>
                     <tr>
@@ -134,7 +141,7 @@ $(document).ready(function() {$('#picker').farbtastic('#color');});
                         <td><p align="left"><input name="seturl" type="text" size="100%" value="<?php echo $config['seturl']; ?>" /></p></td>
                     </tr>
                     <tr>
-                        <td><b><p align="center">弹幕服务器</p></b></td>
+                        <td><b><p align="center">弹幕池地址</p></b></td>
                         <td><p align="left"><input name="dmserver" type="text" size="100%" value="<?php echo $config['dmserver']; ?>" /></p></td>
                     </tr>
                     <tr>
@@ -173,32 +180,64 @@ $(document).ready(function() {$('#picker').farbtastic('#color');});
                                 自动播放<input type="checkbox" name="options[]" value="autoplay" <?php if($config['autoplay']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                             </p>
                             <p align="left">---------------------------------------------------------</p>
-                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&diams;&nbsp;开启截图功能需源站支持 Cross-Origin</p>
-                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&loz;&nbsp;<a href="http://diygod.me" target="_blank">关于作者</a>&nbsp;|&nbsp;<a href="https://github.com/DIYgod/DPlayer/issues" target="_blank">意见反馈</a>&nbsp;|&nbsp;<a href="https://www.anotherhome.net/2648" target="_blank">关于 DPlayer 播放器</a></p>
+                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLV 支持：&nbsp;&nbsp;
+                                <input type="radio" name="flv" value="1" <?php if($config['flv']==1){echo 'checked="checked"';} ?>/>开启
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="flv" value="0" <?php if($config['flv']==0){echo 'checked="checked"';} ?>/>关闭
+                            </p>
+                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HLS（m3u8） 支持：&nbsp;&nbsp;
+                                <input type="radio" name="hls" value="1" <?php if($config['hls']==1){echo 'checked="checked"';} ?>/>开启
+                                &nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="hls" value="0" <?php if($config['hls']==0){echo 'checked="checked"';} ?>/>关闭
+                            </p>
+                            <p align="left">---------------------------------------------------------</p>
+                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                自定义颜色&nbsp;&nbsp;
+                                <input type="text" size="6" id="color" name="theme" value="<?php echo $zbp->Config('DPlayer')->theme; ?>"/>&nbsp;&nbsp;
+                                <a onclick="color_picker($('#color').val());">预览颜色</a>
+                                <a class="dplayer-theme-color" style="float:left;padding:6px 10px"></a>
+                            </p> 
+                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                推荐配色&nbsp;&nbsp;
+                                <a onclick="color_picker('#FADFA3');" style="background-color:#FADFA3;border:1px solid #aaa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;
+                                <a onclick="color_picker('#7addeb');" style="background-color:#7addeb;border:1px solid #aaa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;
+                                <a onclick="color_picker('#dab3db');" style="background-color:#dab3db;border:1px solid #aaa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;
+                                <a onclick="color_picker('#e69184');" style="background-color:#e69184;border:1px solid #aaa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;
+                                <a onclick="color_picker('#acec8e');" style="background-color:#acec8e;border:1px solid #aaa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;
+                                <a onclick="color_picker('#ffffff');" style="background-color:#ffffff;border:1px solid #aaa">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;&nbsp;
+                            </p>
+                            <script>
+                                function color_picker(hex) {
+                                    $("#color").val(hex);$("#color").css("background-color",hex);
+                                    $('.dplayer-theme-color').colorpicker().destroy();
+                                    $('.dplayer-theme-color').colorpicker({
+                                        labels: true,
+                                        color: hex,
+                                        colorSpace: 'rgb',
+                                        expandEvent: 'mouseenter',
+                                        collapseEvent: 'mouseleave mousewheel'
+                                    });
+                                    $('.dplayer-theme-color').on('newcolor', function (ev, colorpicker) {
+                                        $("#color").val(colorpicker.toString('rgb'));$("#color").css("background-color",colorpicker.toString('rgb'));
+                                    });
+                                }
+                                color_picker('<?php echo $zbp->Config('DPlayer')->theme; ?>');
+                            </script>
+                            <p align="left">---------------------------------------------------------</p>
+                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&diams;&nbsp;&nbsp;开启 截图 功能需 源站 支持 <a href="http://baike.baidu.com/item/CORS/16411212" target="_blank">Cross-Origin</a></p>
+                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&loz;&nbsp;&nbsp;<a href="http://diygod.me" target="_blank">关于作者</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://github.com/DIYgod/DPlayer/issues" target="_blank">意见反馈</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://www.anotherhome.net/2648" target="_blank">关于 DPlayer 播放器</a></p>
                             <p align="left"></p>
                         </td>
                     </tr>
                 </table>
-                <table width="60%" border="1" class="tableBorder">
-	                <tr>
-		                <th scope="col" height="32" width="150px"><p align="center">选择配色</p></th>
-		                <th>
-		                    <div id="loadconfig">
-		                        <div class="tc" onclick='$("#color").val("#FADFA3");$("#color").css("background-color","#FADFA3");' style="background-color:#FADFA3"></div>
-			                    <div class="tc" onclick='$("#color").val("#7addeb");$("#color").css("background-color","#7addeb");' style="background-color:#7addeb"></div>
-			                    <div class="tc" onclick='$("#color").val("#dab3db");$("#color").css("background-color","#dab3db");' style="background-color:#dab3db"></div>
-			                    <div class="tc" onclick='$("#color").val("#e69184");$("#color").css("background-color","#e69184");' style="background-color:#e69184"></div>
-			                    <div class="tc" onclick='$("#color").val("#acec8e");$("#color").css("background-color","#acec8e");' style="background-color:#acec8e"></div>
-			                    <div class="tc" onclick='$("#color").val("#ffffff");$("#color").css("background-color","#ffffff");' style="background-color:#ffffff"></div>
-			                </div>
-		                </th>
-	                </tr>
-	                <tr>
-		                <td>自定义颜色<input type="text" id="color" name="theme" value="<?php echo $zbp->Config('DPlayer')->theme; ?>"/></td>
-		                <td><div id="picker"></div><input type="Submit" class="button" value="保存" style="float:right" /></td>
-	                </tr>
-                </table>
-                &copy;2016 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/57.html" target="_blank" style="color:#333333">DPlayer for Z-BlogPHP V1.6</a> (DPlayer 1.0.8)
+                <div style="width:90%;float:inherit">
+                    <div style="float:left;padding:10px 0">
+                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/57.html" target="_blank" style="color:#333333">DPlayer for Z-BlogPHP V1.7</a> (DPlayer 1.1.3)
+                    </div>
+                    <div style="float:right;padding:5px 0;">
+                        <input type="Submit" class="button" value="保存设置" />
+                    </div>
+                </div>
             </form>
         </div>
     </div>
