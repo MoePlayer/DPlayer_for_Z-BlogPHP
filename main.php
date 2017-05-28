@@ -7,27 +7,28 @@ if (!$zbp->CheckPlugin('DPlayer')) {$zbp->ShowError(48);die();}
 require '../../../zb_system/admin/admin_header.php';
 require '../../../zb_system/admin/admin_top.php';
 
-if(isset($_POST['seturl'])){
+if(isset($_POST['siteurl'])){
+    $tips = '';
 	foreach($_POST as $k => $v) $$k = $v;
 	
-	if(empty($seturl)){
+	if(empty($siteurl)){
 	    $zbp->ShowHint('bad', '本站地址不允许为空！');
-	}else{
-		if (!$seturl == ($zbp->Config('DPlayer')->seturl)){
-			$zbp->Config('DPlayer')->seturl = $seturl;
-			$tips = '本站地址设置成功；';
+	} else {
+		if ($siteurl != ($zbp->Config('DPlayer')->siteurl)) {
+			$zbp->Config('DPlayer')->siteurl = $siteurl;
+			$tips .= '本站地址设置成功;';
 		}
 	}
 	if(empty($dmserver)){
 		$zbp->Config('DPlayer')->dmserver = '';
 		$tips .= '弹幕池 地址 为空，弹幕将不显示;';
-	}else{
-	    if ($dmserver != ($zbp->Config('DPlayer')->dmserver)){
+	} else {
+	    if ($dmserver != ($zbp->Config('DPlayer')->dmserver)) {
 			$zbp->Config('DPlayer')->dmserver = $dmserver;
 			$tips .= '弹幕池 地址 设置成功;';
 		}
 	}
-	if (!$hidermmenu == ($zbp->Config('DPlayer')->hidermmenu)){
+	if (!$hidermmenu == ($zbp->Config('DPlayer')->hidermmenu)) {
 	    $dpjs = file_get_contents(dirname(__FILE__)."/DPlayer.min.js");
 		if ($hidermmenu == '1') {
 		    $dpjs = str_replace('<div class="dplayer-menu">','<!--<div class="dplayer-menu">',$dpjs);
@@ -45,6 +46,7 @@ if(isset($_POST['seturl'])){
 	$screenshot = in_array('screenshot',$options) ? 1 : 0;
 	$loop = in_array('loop',$options) ? 1 : 0;
 	$autoplay = in_array('autoplay',$options) ? 1 : 0;
+	$parselist = in_array('parselist', $options) ? 1 : 0;
 	if ($hotkey != $zbp->Config('DPlayer')->hotkey) {
 	    $zbp->Config('DPlayer')->hotkey = $hotkey;
 	    $tips .= '设置已应用;';
@@ -95,21 +97,23 @@ if(isset($_POST['seturl'])){
 	    $zbp->Config('DPlayer')->hls = $hls;
 	    $tips .= '设置已应用;';
 	}
+	if ($parselist != $zbp->Config('DPlayer')->parselist) {
+	    $zbp->Config('DPlayer')->parselist = $parselist;
+	    $tips .= '设置已应用;';
+	}
 	$zbp->SaveConfig('DPlayer');
 	
-	if ( isset($tips) ) {
+	if (!empty($tips)) {
 	    $tips = explode(";",$tips);
-	    for ($i=0;$i<count($tips)-1;$i++) {
-	        $zbp->ShowHint('good', $tips[$i]);
-	    }
-	} else {
-	    $zbp->ShowHint('bad', '设置未更改');
-	}
+	    for ($i=0;$i<count($tips)-1;$i++) $zbp->ShowHint('good', $tips[$i]);
+	} else $zbp->ShowHint('bad', '设置未更改');
 }
 ?>
 <link rel="stylesheet" href="jcolor/jcolor.min.css" type="text/css" />
+<style>table,td,th,tr,.api,tr.color1,tr.color2,tr.color3,tr.color4 { background: rgba(0,0,0,0)!important; border: 2px solid rgba(100,100,100,0.2)!important; }</style>
 <script type="text/javascript" src="jcolor/jcolor.min.js"></script>
-<div id="divMain">
+<!-- 背景图取自 pixiv，作品ID：63069891。 （https://www.pixiv.net/member_illust.php?mode=medium&illust_id=63069891） -->
+<div id="divMain" style="border-radius: 3px; padding: 10px; background: white url(<?php echo $zbp->host; ?>zb_users/plugin/DPlayer/bg.png) no-repeat right bottom;">
     <div class="divHeader"><a href="https://app.zblogcn.com/?id=1033" target="_blank">DPlayer for Z-BlogPHP</a> - 插件配置</div>
 	    <div id="divMain2">
 	        <form id="form1" name="form1" method="post">
@@ -120,7 +124,7 @@ if(isset($_POST['seturl'])){
                     </tr>
                     <?php 
                         $config = array(
-		                    'seturl' => $zbp->Config('DPlayer')->seturl,
+		                    'siteurl' => $zbp->Config('DPlayer')->siteurl,
 		                    'dmserver' => $zbp->Config('DPlayer')->dmserver,
 		                    'useue' => $zbp->Config('DPlayer')->useue,
 		                    'hidermmenu' => $zbp->Config('DPlayer')->hidermmenu,
@@ -133,12 +137,13 @@ if(isset($_POST['seturl'])){
 		                    'lang' => $zbp->Config('DPlayer')->lang,
 		                    'maximum' => $zbp->Config('DPlayer')->maximum,
 		                    'flv' => $zbp->Config('DPlayer')->flv,
-		                    'hls' => $zbp->Config('DPlayer')->hls
+		                    'hls' => $zbp->Config('DPlayer')->hls,
+		                    'parselist' => $zbp->Config('DPlayer')->parselist
 		                );
                     ?>
                     <tr>
                         <td><b><p align="center">本站地址</p></b></td>
-                        <td><p align="left"><input name="seturl" type="text" size="100%" value="<?php echo $config['seturl']; ?>" /></p></td>
+                        <td><p align="left"><input name="siteurl" type="text" size="100%" value="<?php echo $config['siteurl']; ?>" /></p></td>
                     </tr>
                     <tr>
                         <td><b><p align="center">弹幕池地址</p></b></td>
@@ -148,13 +153,11 @@ if(isset($_POST['seturl'])){
                         <td><b><p align="center">附加/默认设置</p></b></td>
                         <td>
                             <p align="left"></p>
-                            <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;适配 UEditor：&nbsp;&nbsp;敬请期待</p>
                             <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;右键菜单：&nbsp;&nbsp;
                                 <input type="radio" name="hidermmenu" value="0" <?php if($config['hidermmenu']==0){echo 'checked="checked"';} ?>/>显示
                                 &nbsp;&nbsp;&nbsp;
                                 <input type="radio" name="hidermmenu" value="1" <?php if($config['hidermmenu']==1){echo 'checked="checked"';} ?>/>隐藏
                             </p>
-                            <p align="left">---------------------------------------------------------</p>
                             <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;预加载：&nbsp;&nbsp;
                                 <input type="radio" name="preload" value="0" <?php if($config['preload']==0){echo 'checked="checked"';} ?>/>自动
                                 &nbsp;&nbsp;&nbsp;
@@ -178,6 +181,7 @@ if(isset($_POST['seturl'])){
                                 截图<input type="checkbox" name="options[]" value="screenshot" <?php if($config['screenshot']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                                 循环播放<input type="checkbox" name="options[]" value="loop" <?php if($config['loop']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                                 自动播放<input type="checkbox" name="options[]" value="autoplay" <?php if($config['autoplay']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
+                                解析列表页标签&nbsp;<input type="checkbox" name="options[]" value="parselist" <?php if($config['parselist']==1){echo 'checked="checked"';} ?>/>&nbsp;&nbsp;
                             </p>
                             <p align="left">---------------------------------------------------------</p>
                             <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLV 支持：&nbsp;&nbsp;
@@ -232,7 +236,7 @@ if(isset($_POST['seturl'])){
                 </table>
                 <div style="width:90%;float:inherit">
                     <div style="float:left;padding:10px 0">
-                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/57.html" target="_blank" style="color:#333333">DPlayer for Z-BlogPHP V1.7</a> (DPlayer 1.1.3)
+                        &copy;2017 <a href="https://www.fghrsh.net" target="_blank" style="color:#333333">FGHRSH</a> - <a href="https://www.fghrsh.net/post/57.html" target="_blank" style="color:#333333">DPlayer for Z-BlogPHP V1.8</a> (DPlayer 1.1.3)
                     </div>
                     <div style="float:right;padding:5px 0;">
                         <input type="Submit" class="button" value="保存设置" />

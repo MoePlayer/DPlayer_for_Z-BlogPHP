@@ -1,6 +1,6 @@
 <?php
 require dirname(__FILE__).'/function.php';
-$dplayer = new dplayer_class();
+$dplayer = new DPlayer_class();
 RegisterPlugin("DPlayer", "ActivePlugin_DPlayer");
 
 function ActivePlugin_DPlayer() {
@@ -13,39 +13,16 @@ function DPlayer_Filter_Plugin_ViewPost_Template(&$template) {
     global $zbp;
     global $dplayer;
 	$article = $template->GetTags('article');
-	$config = array(
-        'seturl' => $zbp->Config('DPlayer')->seturl,
-        'dmserver' => $zbp->Config('DPlayer')->dmserver,
-        'hotkey' => $zbp->Config('DPlayer')->hotkey,
-        'danmaku' => $zbp->Config('DPlayer')->danmaku,
-        'screenshot' => $zbp->Config('DPlayer')->screenshot,
-        'loop' => $zbp->Config('DPlayer')->loop,
-        'autoplay' => $zbp->Config('DPlayer')->autoplay,
-        'preload' => $zbp->Config('DPlayer')->preload,
-        'lang' => $zbp->Config('DPlayer')->lang,
-        'maximum' => $zbp->Config('DPlayer')->maximum,
-        'theme' => $zbp->Config('DPlayer')->theme        );
-	$article->Content = $dplayer->parseCallback($article->Content, $config);
+	$article->Content = $dplayer->parseCallback($article->Content, $zbp->Config('DPlayer'));
 }
 
 function DPlayer_Filter_Plugin_ViewList_Template(&$template) {
     global $zbp;
     global $dplayer;
-	$articles = $template->GetTags('articles');
-	$config = array(
-        'seturl' => $zbp->Config('DPlayer')->seturl,
-        'dmserver' => $zbp->Config('DPlayer')->dmserver,
-        'hotkey' => $zbp->Config('DPlayer')->hotkey,
-        'danmaku' => $zbp->Config('DPlayer')->danmaku,
-        'screenshot' => $zbp->Config('DPlayer')->screenshot,
-        'loop' => $zbp->Config('DPlayer')->loop,
-        'autoplay' => $zbp->Config('DPlayer')->autoplay,
-        'preload' => $zbp->Config('DPlayer')->preload,
-        'lang' => $zbp->Config('DPlayer')->lang,
-        'maximum' => $zbp->Config('DPlayer')->maximum,
-        'theme' => $zbp->Config('DPlayer')->theme        );
-	foreach($articles as $article) {
-	    $article->Intro = $dplayer->parseCallback($article->Intro, $config);
+	$config = $zbp->Config('DPlayer');
+	if ($config->parselist) {
+	    $articles = $template->GetTags('articles');
+	    foreach($articles as $article) $article->Intro = $dplayer->parseCallback($article->Intro, $config);
 	}
 }
 
@@ -55,13 +32,13 @@ function DPlayer_Filter_Plugin_Zbp_MakeTemplatetags() {
     if ($zbp->Config('DPlayer')->hls) $zbp->footer .= '<script type="text/javascript" src="'.$zbp->host.'zb_users/plugin/DPlayer/plugin/hls.min.js"></script>'."\n";
     $zbp->footer .=
     '<script type="text/javascript" src="'.$zbp->host.'zb_users/plugin/DPlayer/DPlayer.min.js?v=1.1.3"></script>'."\n".
-    '<script>function dpajaxload(){if(0<$(\'#dpajax\').length){var DPlayerOptions=[];eval($(\'#dpajax\').text());for(i=0;i<DPlayerOptions.length;i++)new DPlayer({element:document.getElementById(\'dplayer-\'+DPlayerOptions[i].id),autoplay:DPlayerOptions[i].autoplay,theme:DPlayerOptions[i].theme,loop:DPlayerOptions[i].loop,lang:DPlayerOptions[i].lang,screenshot:DPlayerOptions[i].screenshot,hotkey:DPlayerOptions[i].hotkey,preload:DPlayerOptions[i].preload,video:DPlayerOptions[i].video,danmaku:DPlayerOptions[i].danmaku})}}dpajaxload();</script>';
+    '<script>function dpajaxload(){if(0<$(\'#dpajax\').length){var DPlayerOptions=[];eval($(\'#dpajax\').text());for(i=0;i<DPlayerOptions.length;i++)new DPlayer({element:document.getElementById(\'dp\'+DPlayerOptions[i].id),autoplay:DPlayerOptions[i].autoplay,theme:DPlayerOptions[i].theme,loop:DPlayerOptions[i].loop,lang:DPlayerOptions[i].lang,screenshot:DPlayerOptions[i].screenshot,hotkey:DPlayerOptions[i].hotkey,preload:DPlayerOptions[i].preload,video:DPlayerOptions[i].video,danmaku:DPlayerOptions[i].danmaku})}}dpajaxload();</script>';
 }
 
 function InstallPlugin_DPlayer() {
 	global $zbp,$obj,$bucket;
     if (!$zbp->Config('DPlayer')->HasKey('theme')) {
-        $zbp->Config('DPlayer')->seturl = $zbp->host;
+        $zbp->Config('DPlayer')->siteurl = $zbp->host;
         $zbp->Config('DPlayer')->dmserver = '//api.prprpr.me/dplayer/';
         $zbp->Config('DPlayer')->useue = 1;
 		$zbp->Config('DPlayer')->hidermmenu = 0;
@@ -76,6 +53,7 @@ function InstallPlugin_DPlayer() {
 		$zbp->Config('DPlayer')->flv = 1;
 		$zbp->Config('DPlayer')->hls = 0;
 		$zbp->Config('DPlayer')->theme = '#FADFA3';
+		$zbp->Config('DPlayer')->parselist = 0;
         $zbp->SaveConfig('DPlayer');
     }
 }
