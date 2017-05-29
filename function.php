@@ -11,8 +11,7 @@ class DPlayer_class
                 $dp["#dp#$i#"] = substr($matches[0][$i], 1, -1);
                 $out = empty($out) ? self::str_replace_once($matches[0][$i], "#dp#$i#", $post) : $out = self::str_replace_once($matches[0][$i], "#dp#$i#", $out);
             } else {
-                $attr = htmlspecialchars_decode($matches[3][$i]);
-                $atts = self::shortcode_parse_atts($attr);
+                $atts = self::shortcode_parse_atts(self::str_replace_nbsp($matches[3][$i]));
                 if (isset($atts['url'])) {
                     $data = array('id' => md5($siteurl.$atts['url']));
                     $data['hotkey'] = isset($atts['hotkey']) ? self::str2bool($atts['hotkey']) : (bool)$config->hotkey;
@@ -88,6 +87,7 @@ class DPlayer_class
         ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)';     }
     
     function is_not_null($val) { return !is_null($val); }
-    function str2bool($str) { return $str == 'true' ? $str == 'false' ? false : true : $str; }
+    function str2bool($str) { return $str == 'true' ? true : ($str == 'false' ? false : $str); }
+    function str_replace_nbsp($str) { return strip_tags(htmlspecialchars_decode(str_replace('&nbsp;',' ',$str))); }
     function str_replace_once($n, $r, $h) { return ($p = strpos($h, $n)) === false ? $h : substr_replace($h, $r, $p, strlen($n)); }
 }
