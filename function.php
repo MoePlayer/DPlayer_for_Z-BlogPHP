@@ -33,7 +33,7 @@ class DPlayer_class
                         'addition' => isset($atts['addition']) ? explode('|', $atts['addition']) : null    ));
                     if (empty($data['danmaku']['api']) or !$config->danmaku) $data['danmaku'] = null;
                     if (isset($atts['danmu'])) if (!self::str2bool($atts['danmu'])) $data['danmaku'] = null;
-                    $js .= "\nDPlayerOptions.push(".self::json_encode_pretty(array_filter($data, 'self::is_not_null')).");";
+                    $js .= "\nDPlayerOptions.push(".self::json_encode_pretty($data).");";
                     $out = empty($out) ?
                         self::str_replace_once($matches[0][$i], '<div id="dp'.$data['id'].'" class="dplayer"></div>', $post):
                         self::str_replace_once($matches[0][$i], '<div id="dp'.$data['id'].'" class="dplayer"></div>', $out);
@@ -48,8 +48,7 @@ class DPlayer_class
         if (version_compare(PHP_VERSION, '5.4.0') >= 0) {
             return json_encode($src, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } else {
-            array_walk_recursive($src, 'self::json_encode_unescaped');
-            $src = urldecode(json_encode($src));
+            $src = urldecode(json_encode(self::json_encode_unescaped($src)));
             $ret = ''; $pos = 0; $newline = "\n"; $prevchar = '';
             $length = strlen($src); $indent = '    '; $outofquotes = true;
             for ($i=0; $i<=$length; $i++) {
@@ -62,9 +61,12 @@ class DPlayer_class
                     $ret .= $newline; if ($char=='{' || $char=='[') $pos ++; for ($j=0; $j<$pos; $j++) $ret .= $indent; }
                 $prevchar = $char;
             }
-            return str_replace(array('":', '"0"', '"1"', '"2"', '"3"'), array('": ', '0', '1', '2', '3'), $ret);
+            return str_replace(array('":', '"0"', '"1"', '"2"', '"3"', '""'), array('": ', '0', '1', '2', '3', '0'), $ret);
         }   }
-    function json_encode_unescaped(&$val) { if ($val!==true && $val!==false && $val!==null) $val = urlencode($val); }
+    function json_encode_unescaped($src) {
+        if (is_array($src)) foreach ($src as $key => $val)
+            $out[urlencode($key)] = self::json_encode_unescaped($val);
+        else $out = urlencode($src); return $out;                                       }
 
     function shortcode_parse_atts($text) {
         $atts = array();
@@ -86,7 +88,6 @@ class DPlayer_class
         return '\\[(\\[?)('.join('|', array_map('preg_quote', $tagnames)).
         ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)';     }
     
-    function is_not_null($val) { return !is_null($val); }
     function str2bool($str) { return $str == 'true' ? true : ($str == 'false' ? false : $str); }
     function str_replace_nbsp($str) { return strip_tags(htmlspecialchars_decode(str_replace('&nbsp;',' ',$str))); }
     function str_replace_once($n, $r, $h) { return ($p = strpos($h, $n)) === false ? $h : substr_replace($h, $r, $p, strlen($n)); }
